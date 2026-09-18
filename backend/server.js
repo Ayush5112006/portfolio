@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import connectDB from "./config/db.js";
+import connectDB, { getLastError } from "./config/db.js";
 import contactRoutes from "./routes/contactRoutes.js";
 
 dotenv.config();
@@ -44,6 +44,7 @@ app.get("/api/health", async (req, res) => {
       status: dbStatus,
       host: mongoose.connection.host || null,
       name: mongoose.connection.name || null,
+      error: getLastError(),
     },
     timestamp: new Date().toISOString(),
   });
