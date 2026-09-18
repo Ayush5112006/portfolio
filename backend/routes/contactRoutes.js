@@ -1,5 +1,6 @@
 import express from "express";
 import Message from "../models/Message.js";
+import { sendNotificationEmail } from "../config/mailer.js";
 
 const router = express.Router();
 
@@ -22,6 +23,11 @@ router.post("/", async (req, res) => {
       email,
       message,
     });
+
+    // Send email notification to Ayush
+    sendNotificationEmail({ name, email, message }).catch((err) =>
+      console.error("Email notification background error:", err)
+    );
 
     return res.status(201).json({
       success: true,

@@ -1,5 +1,6 @@
 import connectDB from "./lib/db.js";
 import Message from "./lib/Message.js";
+import { sendNotificationEmail } from "./lib/mailer.js";
 
 export default async function handler(req, res) {
   // CORS headers — allow production and local dev
@@ -24,6 +25,9 @@ export default async function handler(req, res) {
       }
 
       const newMessage = await Message.create({ name, email, message });
+
+      // Send email notification to Ayush
+      await sendNotificationEmail({ name, email, message });
 
       return res.status(201).json({
         success: true,
