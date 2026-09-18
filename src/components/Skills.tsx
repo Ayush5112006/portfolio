@@ -63,7 +63,7 @@ const Skills = () => {
   useEffect(() => {
     // Pause auto-cycle when user is hovering or has stopped it
     if (!autoCycling || isHovered || isPaused) return;
-    const timer = setInterval(cycleSkill, 10000);
+    const timer = setInterval(cycleSkill, 8000);
     return () => clearInterval(timer);
   }, [autoCycling, isHovered, isPaused, cycleSkill]);
 
@@ -222,9 +222,8 @@ const Skills = () => {
                         }}
                       >
                         <div
-                          className={`w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 ${
-                            isActive ? "scale-110" : "group-hover/node:scale-110"
-                          }`}
+                          className={`w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 ${isActive ? "scale-110" : "group-hover/node:scale-110"
+                            }`}
                           style={{
                             background: isActive
                               ? "hsl(199 89% 60% / 0.22)"
@@ -243,11 +242,10 @@ const Skills = () => {
                           />
                         </div>
                         <span
-                          className={`text-[10px] font-semibold whitespace-nowrap px-1.5 py-0.5 rounded transition-all duration-300 ${
-                            isActive
-                              ? "bg-primary/15 text-primary border border-primary/30 shadow-sm"
-                              : "text-muted-foreground group-hover/node:text-foreground"
-                          }`}
+                          className={`text-[10px] font-semibold whitespace-nowrap px-1.5 py-0.5 rounded transition-all duration-300 ${isActive
+                            ? "bg-primary/15 text-primary border border-primary/30 shadow-sm"
+                            : "text-muted-foreground group-hover/node:text-foreground"
+                            }`}
                         >
                           {skill.name}
                         </span>
@@ -286,9 +284,8 @@ const Skills = () => {
                 aria-label="Change rotation direction"
               >
                 <RotateCw
-                  className={`w-3 h-3 text-secondary transition-transform duration-300 ${
-                    direction === "reverse" ? "-scale-x-100" : ""
-                  }`}
+                  className={`w-3 h-3 text-secondary transition-transform duration-300 ${direction === "reverse" ? "-scale-x-100" : ""
+                    }`}
                 />
                 <span>{direction === "normal" ? "Clockwise" : "Counter-CW"}</span>
               </button>

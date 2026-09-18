@@ -1,15 +1,36 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Send } from "lucide-react";
+import { Send, Loader2, CheckCircle } from "lucide-react";
+import { toast } from "sonner";
 
 const Contact = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send message");
+      setSent(true);
+      setFormData({ name: "", email: "", message: "" });
+      toast.success("Message sent! I'll get back to you soon 🚀");
+      setTimeout(() => setSent(false), 4000);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Something went wrong";
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -104,8 +125,18 @@ const Contact = () => {
                 required
               />
             </div>
-            <button type="submit" className="btn-primary-custom w-full justify-center">
-              Send Message <Send className="h-4 w-4" />
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary-custom w-full justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <><Loader2 className="h-4 w-4 animate-spin" /> Sending...</>
+              ) : sent ? (
+                <><CheckCircle className="h-4 w-4" /> Sent!</>
+              ) : (
+                <>Send Message <Send className="h-4 w-4" /></>
+              )}
             </button>
           </motion.form>
 
