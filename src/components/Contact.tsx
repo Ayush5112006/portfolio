@@ -1,7 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Send, Mail, Github, Linkedin, Instagram } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Send } from "lucide-react";
 
 const Contact = () => {
   const ref = useRef(null);
@@ -10,35 +9,34 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
     console.log(formData);
   };
 
   return (
-    <section id="contact" className="section-padding" ref={ref}>
+    <section id="contact" className="section-padding" ref={ref} style={{ zIndex: 1, position: "relative" }}>
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="section-header text-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="section-title">
             Get In <span className="gradient-text">Touch</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="section-subtitle">
             Have a project in mind? Let's work together
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto place-items-center lg:place-items-stretch">
+        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {/* Form */}
           <motion.form
             onSubmit={handleSubmit}
             initial={{ opacity: 0, x: -30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="space-y-5 w-full max-w-xl"
+            className="space-y-5 w-full"
           >
             <div>
               <input
@@ -46,7 +44,19 @@ const Contact = () => {
                 placeholder="Your Name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-muted border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
+                className="w-full px-4 py-3 rounded-xl outline-none transition-all text-foreground placeholder:text-muted-foreground"
+                style={{
+                  background: "hsl(225 40% 12%)",
+                  border: "1px solid hsl(225 30% 18%)",
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = "hsl(199 89% 60% / 0.5)";
+                  e.currentTarget.style.boxShadow = "0 0 20px hsl(199 89% 60% / 0.08)";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = "hsl(225 30% 18%)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
                 required
               />
             </div>
@@ -56,7 +66,19 @@ const Contact = () => {
                 placeholder="Your Email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-muted border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
+                className="w-full px-4 py-3 rounded-xl outline-none transition-all text-foreground placeholder:text-muted-foreground"
+                style={{
+                  background: "hsl(225 40% 12%)",
+                  border: "1px solid hsl(225 30% 18%)",
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = "hsl(199 89% 60% / 0.5)";
+                  e.currentTarget.style.boxShadow = "0 0 20px hsl(199 89% 60% / 0.08)";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = "hsl(225 30% 18%)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
                 required
               />
             </div>
@@ -66,49 +88,101 @@ const Contact = () => {
                 rows={5}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-muted border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-foreground placeholder:text-muted-foreground resize-none"
+                className="w-full px-4 py-3 rounded-xl outline-none transition-all text-foreground placeholder:text-muted-foreground resize-none"
+                style={{
+                  background: "hsl(225 40% 12%)",
+                  border: "1px solid hsl(225 30% 18%)",
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = "hsl(199 89% 60% / 0.5)";
+                  e.currentTarget.style.boxShadow = "0 0 20px hsl(199 89% 60% / 0.08)";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = "hsl(225 30% 18%)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
                 required
               />
             </div>
-            <Button variant="hero" size="lg" type="submit" className="w-full">
-              Send Message <Send className="ml-2 h-4 w-4" />
-            </Button>
+            <button type="submit" className="btn-primary-custom w-full justify-center">
+              Send Message <Send className="h-4 w-4" />
+            </button>
           </motion.form>
 
-          {/* Contact info */}
+          {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-col justify-center w-full max-w-xl"
+            className="flex flex-col justify-center"
           >
-            <div className="glass-card p-8 space-y-6 text-center sm:text-left">
-              <h3 className="text-xl font-semibold mb-2">Let's Connect</h3>
+            <div className="glass-card p-8 space-y-6">
+              <h3 className="text-xl font-bold mb-2">Let's Connect</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">
                 I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
               </p>
               <div className="space-y-4">
-                <a href="mailto:thummarayush05@gmail.com" className="flex items-center justify-center sm:justify-start gap-3 text-muted-foreground hover:text-foreground transition-colors group">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <Mail className="h-4 w-4 text-primary" />
+                <a
+                  href="mailto:thummarayush05@gmail.com"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group"
+                >
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
+                    style={{
+                      background: "hsl(199 89% 60% / 0.1)",
+                      border: "1px solid hsl(199 89% 60% / 0.15)",
+                    }}
+                  >
+                    <i className="fa-solid fa-envelope" style={{ color: "hsl(199 89% 60%)" }} />
                   </div>
                   <span className="text-sm break-all">thummarayush05@gmail.com</span>
                 </a>
-                <a href="https://github.com/Ayush5112006/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center sm:justify-start gap-3 text-muted-foreground hover:text-foreground transition-colors group">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <Github className="h-4 w-4 text-primary" />
+                <a
+                  href="https://github.com/Ayush5112006/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group"
+                >
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
+                    style={{
+                      background: "hsl(199 89% 60% / 0.1)",
+                      border: "1px solid hsl(199 89% 60% / 0.15)",
+                    }}
+                  >
+                    <i className="fa-brands fa-github" style={{ color: "hsl(199 89% 60%)" }} />
                   </div>
                   <span className="text-sm break-all">github.com/Ayush5112006</span>
                 </a>
-                <a href="https://www.linkedin.com/in/ayush-thummar-471720309/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center sm:justify-start gap-3 text-muted-foreground hover:text-foreground transition-colors group">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <Linkedin className="h-4 w-4 text-primary" />
+                <a
+                  href="https://www.linkedin.com/in/ayush-thummar-471720309/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group"
+                >
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
+                    style={{
+                      background: "hsl(199 89% 60% / 0.1)",
+                      border: "1px solid hsl(199 89% 60% / 0.15)",
+                    }}
+                  >
+                    <i className="fa-brands fa-linkedin" style={{ color: "hsl(199 89% 60%)" }} />
                   </div>
                   <span className="text-sm break-all">linkedin.com/in/ayush-thummar-471720309</span>
                 </a>
-                <a href="#" className="flex items-center justify-center sm:justify-start gap-3 text-muted-foreground hover:text-foreground transition-colors group">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <Instagram className="h-4 w-4 text-primary" />
+                <a
+                  href="#"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group"
+                >
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
+                    style={{
+                      background: "hsl(199 89% 60% / 0.1)",
+                      border: "1px solid hsl(199 89% 60% / 0.15)",
+                    }}
+                  >
+                    <i className="fa-brands fa-instagram" style={{ color: "hsl(199 89% 60%)" }} />
                   </div>
                   <span className="text-sm">@ayushthummar</span>
                 </a>

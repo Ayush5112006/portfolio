@@ -1,32 +1,62 @@
-import { Github, Linkedin, Instagram, Mail } from "lucide-react";
-
 const Footer = () => {
   const socials = [
-    { icon: Github, href: "#" },
-    { icon: Linkedin, href: "#" },
-    { icon: Instagram, href: "#" },
-    { icon: Mail, href: "mailto:ayush@example.com" },
+    { icon: "fa-brands fa-github", href: "https://github.com/Ayush5112006/" },
+    { icon: "fa-brands fa-linkedin", href: "https://www.linkedin.com/in/ayush-thummar-471720309/" },
+    { icon: "fa-brands fa-instagram", href: "#" },
+    { icon: "fa-solid fa-envelope", href: "mailto:thummarayush05@gmail.com" },
   ];
 
   return (
-    <footer className="border-t border-border/50 py-12 px-4">
+    <footer
+      className="py-12 px-4"
+      style={{
+        borderTop: "1px solid hsl(225 30% 16% / 0.4)",
+        position: "relative",
+        zIndex: 1,
+      }}
+    >
       <div className="container mx-auto">
-        <div className="flex justify-center md:justify-end">
+        {/* Top row */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-8">
+          {/* Logo */}
+          <a
+            href="#home"
+            className="text-lg font-bold"
+            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+          >
+            <span style={{ color: "hsl(199 89% 60%)" }}>&lt;</span>
+            Ayush
+            <span style={{ color: "hsl(199 89% 60%)" }}>.Dev /&gt;</span>
+          </a>
+
+          {/* Social Icons */}
           <div className="flex gap-3">
             {socials.map((s, i) => (
               <a
                 key={i}
                 href={s.href}
-                className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                target={s.href.startsWith("http") ? "_blank" : undefined}
+                rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="w-9 h-9 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300"
+                style={{
+                  background: "hsl(225 40% 12%)",
+                  border: "1px solid hsl(225 30% 18%)",
+                }}
               >
-                <s.icon className="h-4 w-4" />
+                <i className={`${s.icon} text-sm`} />
               </a>
             ))}
           </div>
         </div>
 
-        <div className="border-t border-border/30 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Ayush Thummar. All rights reserved.</p>
+        {/* Bottom row */}
+        <div
+          className="pt-6 text-center text-sm text-muted-foreground"
+          style={{ borderTop: "1px solid hsl(225 30% 16% / 0.3)" }}
+        >
+          <p>
+            © {new Date().getFullYear()} Ayush Thummar. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
