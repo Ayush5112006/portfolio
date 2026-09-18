@@ -11,7 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Connect to MongoDB Atlas
-connectDB();
+connectDB().catch((err) => console.error("Initial connect err:", err.message));
 
 // Middleware
 app.use(
@@ -25,23 +25,33 @@ app.use(express.urlencoded({ extended: true }));
 
 // Ensure DB connection before handling API requests
 app.use(async (req, res, next) => {
-  if (mongoose.connection.readyState !== 1) {
-    await connectDB();
+  try {
+    if (mongoose.connection.readyState !== 1) {
+      await connectDB();
+    }
+  } catch (e) {
+    console.error("Middleware DB connect err:", e.message);
   }
   next();
 });
 
 // Health Check API
 app.get("/api/health", async (req, res) => {
-  if (mongoose.connection.readyState !== 1) {
-    await connectDB();
+  try {
+    if (mongoose.connection.readyState !== 1) {
+      await connectDB();
+    }
+  } catch (e) {
+    // getLastError will have error message
   }
-  const dbStatus = mongoose.connection.readyState === 1 ? "Connected" : "Disconnected";
+  const states = ["Disconnected", "Connected", "Connecting", "Disconnecting"];
+  const readyState = mongoose.connection.readyState;
   res.json({
     status: "ok",
     uptime: process.uptime(),
     database: {
-      status: dbStatus,
+      status: states[readyState] || "Unknown",
+      readyState,
       host: mongoose.connection.host || null,
       name: mongoose.connection.name || null,
       error: getLastError(),
