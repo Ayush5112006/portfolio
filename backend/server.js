@@ -16,15 +16,26 @@ connectDB();
 // Middleware
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: true,
     credentials: true,
   })
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Ensure DB connection before handling API requests
+app.use(async (req, res, next) => {
+  if (mongoose.connection.readyState !== 1) {
+    await connectDB();
+  }
+  next();
+});
+
 // Health Check API
-app.get("/api/health", (req, res) => {
+app.get("/api/health", async (req, res) => {
+  if (mongoose.connection.readyState !== 1) {
+    await connectDB();
+  }
   const dbStatus = mongoose.connection.readyState === 1 ? "Connected" : "Disconnected";
   res.json({
     status: "ok",
@@ -47,6 +58,11 @@ app.use((req, res) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`🚀 Portfolio Backend Server running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Portfolio Backend Server running on http://localhost:${PORT}`);
+  });
+}
+
+export default app;
+
