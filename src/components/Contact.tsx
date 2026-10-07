@@ -1,7 +1,9 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import { Send, Loader2, CheckCircle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Send, Loader2, CheckCircle, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
+
+const EMAIL = "thummarayush05@gmail.com";
 
 const Contact = () => {
   const ref = useRef(null);
@@ -9,6 +11,25 @@ const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const copyTimeout = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimeout.current) window.clearTimeout(copyTimeout.current);
+    };
+  }, []);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      if (copyTimeout.current) window.clearTimeout(copyTimeout.current);
+      copyTimeout.current = window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error("Couldn't copy automatically — please select the email manually");
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -156,22 +177,56 @@ const Contact = () => {
                 I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
               </p>
               <div className="space-y-4">
-                <a
-                  href="mailto:thummarayush05@gmail.com"
-                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group"
-                  aria-label="Send an email to thummarayush05@gmail.com"
-                >
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
-                    style={{
-                      background: "hsl(199 89% 60% / 0.1)",
-                      border: "1px solid hsl(199 89% 60% / 0.15)",
-                    }}
+                <div className="flex items-center gap-3 group">
+                  <a
+                    href={`mailto:${EMAIL}`}
+                    className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors flex-1 min-w-0"
+                    aria-label={`Send an email to ${EMAIL}`}
                   >
-                    <i className="fa-solid fa-envelope" style={{ color: "hsl(199 89% 60%)" }} aria-hidden="true" />
-                  </div>
-                  <span className="text-sm break-all">thummarayush05@gmail.com</span>
-                </a>
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 flex-shrink-0"
+                      style={{
+                        background: "hsl(199 89% 60% / 0.1)",
+                        border: "1px solid hsl(199 89% 60% / 0.15)",
+                      }}
+                    >
+                      <i className="fa-solid fa-envelope" style={{ color: "hsl(199 89% 60%)" }} aria-hidden="true" />
+                    </div>
+                    <span className="text-sm break-all">{EMAIL}</span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={copyEmail}
+                    className="shrink-0 inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg text-xs font-medium transition-all duration-200"
+                    style={{
+                      background: copied
+                        ? "hsl(142 71% 45% / 0.12)"
+                        : "hsl(225 40% 12%)",
+                      color: copied ? "hsl(142 71% 60%)" : "hsl(215 20% 55%)",
+                      border: copied
+                        ? "1px solid hsl(142 71% 45% / 0.3)"
+                        : "1px solid hsl(225 30% 18%)",
+                    }}
+                    aria-label={
+                      copied
+                        ? "Email copied to clipboard"
+                        : `Copy ${EMAIL} to clipboard`
+                    }
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="h-3.5 w-3.5" aria-hidden="true" /> Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3.5 w-3.5" aria-hidden="true" /> Copy
+                      </>
+                    )}
+                  </button>
+                  <span role="status" aria-live="polite" className="sr-only">
+                    {copied ? "Email copied to clipboard" : ""}
+                  </span>
+                </div>
                 <a
                   href="https://github.com/Ayush5112006/"
                   target="_blank"
@@ -207,6 +262,24 @@ const Contact = () => {
                     <i className="fa-brands fa-linkedin" style={{ color: "hsl(199 89% 60%)" }} aria-hidden="true" />
                   </div>
                   <span className="text-sm break-all">linkedin.com/in/ayush-thummar-471720309</span>
+                </a>
+                <a
+                  href="https://ayushthummar.netlify.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group"
+                  aria-label="Visit Ayush's portfolio website (opens in a new tab)"
+                >
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
+                    style={{
+                      background: "hsl(199 89% 60% / 0.1)",
+                      border: "1px solid hsl(199 89% 60% / 0.15)",
+                    }}
+                  >
+                    <i className="fa-solid fa-globe" style={{ color: "hsl(199 89% 60%)" }} aria-hidden="true" />
+                  </div>
+                  <span className="text-sm break-all">ayushthummar.netlify.app</span>
                 </a>
               </div>
             </div>

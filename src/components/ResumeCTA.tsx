@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { ArrowRight, Download, Linkedin } from "lucide-react";
+import { ArrowRight, Download, FileText, Linkedin } from "lucide-react";
 
 const ResumeCTA = () => {
   const ref = useRef(null);
@@ -36,24 +36,46 @@ const ResumeCTA = () => {
           />
 
           <div className="relative">
+            <div className="mb-5 flex flex-col items-center gap-2">
+              <span className="status-badge">
+                <span className="pulse-dot" />
+                Open to AI/ML &amp; Software Development Opportunities
+              </span>
+              <span className="text-xs text-muted-foreground">
+                Internships • Projects • Technical Collaborations
+              </span>
+            </div>
+
             <h2 className="section-title mb-4">
-              Let's Build <span className="gradient-text">Something Intelligent</span>
+              Let's Build <span className="gradient-text">Something Meaningful</span>
             </h2>
             <p className="section-subtitle mx-auto mb-8">
-              I'm interested in AI/ML, software development, data-driven applications, and opportunities
-              where I can learn, contribute, and solve meaningful problems.
+              Recruiter or collaborator — I'm open to AI/ML, software development, and
+              data-driven opportunities where I can learn, contribute, and solve real problems.
             </p>
 
             <div className="flex flex-wrap justify-center gap-4">
+              <a href="#contact" className="btn-primary-custom">
+                Let's Connect <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </a>
+              <a href="#projects" className="btn-outline-custom">
+                View Projects
+              </a>
               <a
                 href="/ayush_Resume.pdf"
                 download="ayush_Resume.pdf"
-                className="btn-primary-custom"
+                className="btn-outline-custom"
               >
                 <Download className="h-4 w-4" aria-hidden="true" /> Download Resume
               </a>
-              <a href="#projects" className="btn-outline-custom">
-                View Projects <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              <a
+                href="/ayush_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline-custom"
+                aria-label="View resume in a new tab"
+              >
+                <FileText className="h-4 w-4" aria-hidden="true" /> View Resume
               </a>
               <a
                 href="https://www.linkedin.com/in/ayush-thummar-471720309/"

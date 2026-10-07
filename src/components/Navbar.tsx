@@ -15,29 +15,44 @@ const navLinks = [
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("#about");
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
-    const onScroll = () => {
+    let ticking = false;
+
+    const detect = () => {
       setScrolled(window.scrollY > 20);
 
-      // Detect active section
       const sections = navLinks.map((l) => l.href.replace("#", ""));
+      let active = "";
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
         if (el && el.getBoundingClientRect().top <= 120) {
-          setActiveSection("#" + sections[i]);
+          active = "#" + sections[i];
           break;
         }
       }
+      setActiveSection(active);
     };
-    window.addEventListener("scroll", onScroll);
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        detect();
+        ticking = false;
+      });
+    };
+
+    detect();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const closeAndGo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setMobileOpen(false);
+    setActiveSection(href);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.setTimeout(() => {
       const el = document.getElementById(href.replace("#", ""));

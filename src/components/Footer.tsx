@@ -2,6 +2,7 @@ const Footer = () => {
   const socials = [
     { icon: "fa-brands fa-github", href: "https://github.com/Ayush5112006/", label: "GitHub profile" },
     { icon: "fa-brands fa-linkedin", href: "https://www.linkedin.com/in/ayush-thummar-471720309/", label: "LinkedIn profile" },
+    { icon: "fa-solid fa-globe", href: "https://ayushthummar.netlify.app/", label: "Portfolio website" },
     { icon: "fa-solid fa-envelope", href: "mailto:thummarayush05@gmail.com", label: "Send an email" },
   ];
 
@@ -57,6 +58,16 @@ const Footer = () => {
         >
           <p>
             © {new Date().getFullYear()} Ayush Thummar. All rights reserved.
+            {" · "}
+            <a
+              href="https://ayushthummar.netlify.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
+              style={{ color: "hsl(199 89% 65%)" }}
+            >
+              ayushthummar.netlify.app
+            </a>
           </p>
         </div>
       </div>

@@ -1,9 +1,12 @@
 import ParticleCanvas from "@/components/ParticleCanvas";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import TrustStrip from "@/components/TrustStrip";
 import About from "@/components/About";
+import WhatIBring from "@/components/WhatIBring";
 import AiFocus from "@/components/AiFocus";
 import Skills from "@/components/Skills";
+import CurrentlyExploring from "@/components/CurrentlyExploring";
 import Projects from "@/components/Projects";
 import Services from "@/components/Services";
 import Experience from "@/components/Experience";
@@ -19,9 +22,12 @@ const Index = () => {
       <ParticleCanvas />
       <Navbar />
       <Hero />
+      <TrustStrip />
       <About />
+      <WhatIBring />
       <AiFocus />
       <Skills />
+      <CurrentlyExploring />
       <Projects />
       <Services />
       <Experience />
