@@ -3,23 +3,62 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { Play, Pause, RotateCw, Sparkles } from "lucide-react";
 
 const skills = [
-  { name: "HTML", icon: "fa-brands fa-html5", color: "#e34c26" },
-  { name: "CSS", icon: "fa-brands fa-css3-alt", color: "#264de4" },
+  { name: "Python", icon: "fa-brands fa-python", color: "#3776ab" },
+  { name: "Machine Learning", icon: "fa-solid fa-brain", color: "#a78bfa" },
+  { name: "Computer Vision", icon: "fa-solid fa-eye", color: "#22d3ee" },
+  { name: "Data Science", icon: "fa-solid fa-chart-line", color: "#f59e0b" },
   { name: "JavaScript", icon: "fa-brands fa-js", color: "#f7df1e" },
   { name: "React", icon: "fa-brands fa-react", color: "#61dafb" },
   { name: "Next.js", icon: "fa-brands fa-react", color: "#ffffff" },
   { name: "Tailwind", icon: "fa-solid fa-wind", color: "#38bdf8" },
   { name: "Node.js", icon: "fa-brands fa-node-js", color: "#68a063" },
   { name: "Express", icon: "fa-solid fa-server", color: "#999999" },
+  { name: "FastAPI", icon: "fa-solid fa-bolt", color: "#009688" },
   { name: "MongoDB", icon: "fa-solid fa-database", color: "#47a248" },
   { name: "MySQL", icon: "fa-solid fa-database", color: "#00758f" },
-  { name: "Git", icon: "fa-brands fa-git-alt", color: "#f05032" },
   { name: "Firebase", icon: "fa-solid fa-fire", color: "#ffca28" },
+  { name: "Git", icon: "fa-brands fa-git-alt", color: "#f05032" },
   { name: "AI Tools", icon: "fa-solid fa-robot", color: "#a78bfa" },
-  { name: "App Dev", icon: "fa-solid fa-mobile-screen", color: "#34d399" },
+];
+
+const skillGroups = [
+  {
+    label: "Languages",
+    color: "hsl(199 89% 60%)",
+    items: ["Python", "JavaScript", "TypeScript", "SQL"],
+  },
+  {
+    label: "AI / ML",
+    color: "hsl(271 81% 56%)",
+    items: ["Machine Learning", "Computer Vision", "Data Science", "AI Tools"],
+  },
+  {
+    label: "Frontend",
+    color: "hsl(199 89% 60%)",
+    items: ["HTML", "CSS", "React", "Next.js", "Tailwind"],
+  },
+  {
+    label: "Backend",
+    color: "hsl(142 71% 45%)",
+    items: ["Node.js", "Express", "FastAPI", "REST APIs"],
+  },
+  {
+    label: "Database",
+    color: "hsl(38 92% 50%)",
+    items: ["MongoDB", "MySQL", "Firebase", "Supabase"],
+  },
+  {
+    label: "Tools & APIs",
+    color: "hsl(215 20% 65%)",
+    items: ["Git", "Vercel", "Razorpay API", "AdMob"],
+  },
 ];
 
 const skillDetails: Record<string, { description: string; tag: string }> = {
+  Python: { description: "General-purpose programming for AI/ML, automation, data processing, and backend services.", tag: "AI / ML" },
+  "Machine Learning": { description: "Supervised and unsupervised models, model evaluation, and practical machine learning workflows.", tag: "AI / ML" },
+  "Computer Vision": { description: "Image and video analysis pipelines built with OpenCV and modern vision techniques.", tag: "AI / ML" },
+  "Data Science": { description: "Data cleaning, exploration, visualization, and drawing insights from real-world datasets.", tag: "AI / ML" },
   HTML: { description: "Semantic markup and accessible web structures. Strong foundation in HTML5 elements and best practices.", tag: "Frontend" },
   CSS: { description: "Modern CSS with animations, Grid, Flexbox, and responsive design patterns. Pixel-perfect implementations.", tag: "Frontend" },
   JavaScript: { description: "ES6+, async/await, DOM manipulation, and modern JS patterns. Strong problem-solving with vanilla JS.", tag: "Frontend" },
@@ -28,18 +67,18 @@ const skillDetails: Record<string, { description: string; tag: string }> = {
   Tailwind: { description: "Utility-first CSS framework for rapid UI development with custom design systems and responsive layouts.", tag: "Frontend" },
   "Node.js": { description: "Server-side JavaScript runtime for building scalable backend services and RESTful APIs.", tag: "Backend" },
   Express: { description: "Minimal and flexible Node.js web application framework for building APIs and web servers.", tag: "Backend" },
+  FastAPI: { description: "Fast, modern Python web framework used to serve ML models and data services through REST APIs.", tag: "Backend" },
   MongoDB: { description: "NoSQL database for flexible document storage, aggregation pipelines, and scalable data solutions.", tag: "Database" },
   MySQL: { description: "Relational database management with complex queries, joins, and structured data storage.", tag: "Database" },
   Git: { description: "Version control, branching strategies, collaboration workflows, and open-source contribution practices.", tag: "DevOps" },
   Firebase: { description: "Authentication, Firestore, Realtime Database, Cloud Functions, and hosting for rapid prototyping.", tag: "Backend" },
   "AI Tools": { description: "Integration of AI-powered features including chatbots, content generation, and workflow automation.", tag: "AI/ML" },
-  "App Dev": { description: "Cross-platform mobile application development with React Native and native integrations.", tag: "Mobile" },
 };
 
 const Skills = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
-  const [activeSkill, setActiveSkill] = useState<string>("React");
+  const [activeSkill, setActiveSkill] = useState<string>("Python");
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [direction, setDirection] = useState<"normal" | "reverse">("normal");
@@ -87,7 +126,7 @@ const Skills = () => {
             Tech <span className="gradient-text">Stack</span>
           </h2>
           <p className="section-subtitle">
-            Explore my technical skills in a rotating interactive orbit. Hover or click any node to inspect details.
+            An interactive orbit of my core skills, with a full grouped breakdown of my tech stack below.
           </p>
         </motion.div>
 
@@ -376,6 +415,39 @@ const Skills = () => {
               </a>
             </div>
           </motion.div>
+        </motion.div>
+
+        {/* Grouped Skill Categories */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="mt-16 lg:mt-20"
+        >
+          <h3 className="text-center text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-8">
+            Full Tech Stack
+          </h3>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {skillGroups.map((group) => (
+              <div key={group.label} className="glass-card p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <span
+                    className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                    style={{ background: group.color }}
+                    aria-hidden="true"
+                  />
+                  <h4 className="text-sm font-semibold text-foreground">{group.label}</h4>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {group.items.map((item) => (
+                    <span key={item} className="tech-tag">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

@@ -3,11 +3,12 @@ import { useRef } from "react";
 
 const educationList = [
   {
-    degree: "Bachelor of Engineering – Computer Engineering",
+    degree: "B.Tech — Computer Science Engineering",
     institute:
-      "Devang Patel Institute of Advance Technology and Research (DEPSTAR), Anand",
+      "CHARUSAT University — Devang Patel Institute of Advanced Technology and Research (DEPSTAR), Anand",
     year: "2024 – 2028",
-    grade: "CGPA: 7.08",
+    grade: "CGPA: 7.17",
+    pursuing: true,
     description:
       "Focused on Full Stack Development, DAA, DSA, Database Management, and more.",
     icon: "fa-solid fa-laptop-code",
@@ -116,16 +117,30 @@ const Education = () => {
                       </div>
                       <div>
                         {/* Year badge */}
-                        <span
-                          className="inline-block text-xs font-bold px-3 py-0.5 rounded-full mb-1"
-                          style={{
-                            color: "hsl(199 89% 60%)",
-                            background: "hsl(199 89% 60% / 0.08)",
-                            border: "1px solid hsl(199 89% 60% / 0.2)",
-                          }}
-                        >
-                          {edu.year}
-                        </span>
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                          <span
+                            className="inline-block text-xs font-bold px-3 py-0.5 rounded-full"
+                            style={{
+                              color: "hsl(199 89% 60%)",
+                              background: "hsl(199 89% 60% / 0.08)",
+                              border: "1px solid hsl(199 89% 60% / 0.2)",
+                            }}
+                          >
+                            {edu.year}
+                          </span>
+                          {edu.pursuing && (
+                            <span
+                              className="inline-block text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"
+                              style={{
+                                color: "hsl(271 90% 78%)",
+                                background: "hsl(271 81% 56% / 0.15)",
+                                border: "1px solid hsl(271 81% 56% / 0.3)",
+                              }}
+                            >
+                              Currently Pursuing
+                            </span>
+                          )}
+                        </div>
                         <h3 className="text-base font-bold">{edu.degree}</h3>
                         <p
                           className="text-sm font-medium mt-0.5"

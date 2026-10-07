@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { label: "About", href: "#about" },
+  { label: "AI/ML", href: "#ai-focus" },
   { label: "Skills", href: "#skills" },
   { label: "Projects", href: "#projects" },
   { label: "Services", href: "#services" },
@@ -34,6 +35,18 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const closeAndGo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setMobileOpen(false);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.setTimeout(() => {
+      const el = document.getElementById(href.replace("#", ""));
+      if (!el) return;
+      el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+      window.history.replaceState(null, "", href);
+    }, 350);
+  };
+
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -62,7 +75,7 @@ const Navbar = () => {
         </a>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-1">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -90,14 +103,16 @@ const Navbar = () => {
         <div className="flex items-center gap-3">
           <a
             href="#contact"
-            className="hidden md:inline-flex btn-secondary-custom"
+            className="hidden lg:inline-flex btn-secondary-custom"
           >
             Get In Touch
           </a>
           <button
-            className="md:hidden w-10 h-10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+            className="lg:hidden w-10 h-10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle Menu"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -111,7 +126,8 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t"
+            className="lg:hidden border-t"
+            id="mobile-menu"
             style={{
               background: "hsl(225 45% 8% / 0.95)",
               backdropFilter: "blur(20px)",
@@ -123,7 +139,7 @@ const Navbar = () => {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={(e) => closeAndGo(e, link.href)}
                   className="px-4 py-3 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-white/5"
                 >
                   {link.label}
@@ -131,7 +147,7 @@ const Navbar = () => {
               ))}
               <a
                 href="#contact"
-                onClick={() => setMobileOpen(false)}
+                onClick={(e) => closeAndGo(e, "#contact")}
                 className="px-4 py-3 text-sm font-medium rounded-lg mt-2"
                 style={{ color: "hsl(199 89% 60%)" }}
               >

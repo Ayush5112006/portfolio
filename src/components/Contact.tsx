@@ -46,7 +46,7 @@ const Contact = () => {
             Get In <span className="gradient-text">Touch</span>
           </h2>
           <p className="section-subtitle">
-            Have a project in mind? Let's work together
+            Open to AI/ML and software development opportunities — let's talk
           </p>
         </motion.div>
 
@@ -63,6 +63,7 @@ const Contact = () => {
               <input
                 type="text"
                 placeholder="Your Name"
+                aria-label="Your Name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full px-4 py-3 rounded-xl outline-none transition-all text-foreground placeholder:text-muted-foreground"
@@ -85,6 +86,7 @@ const Contact = () => {
               <input
                 type="email"
                 placeholder="Your Email"
+                aria-label="Your Email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-4 py-3 rounded-xl outline-none transition-all text-foreground placeholder:text-muted-foreground"
@@ -106,6 +108,7 @@ const Contact = () => {
             <div>
               <textarea
                 placeholder="Your Message"
+                aria-label="Your Message"
                 rows={5}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -156,6 +159,7 @@ const Contact = () => {
                 <a
                   href="mailto:thummarayush05@gmail.com"
                   className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group"
+                  aria-label="Send an email to thummarayush05@gmail.com"
                 >
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
@@ -164,7 +168,7 @@ const Contact = () => {
                       border: "1px solid hsl(199 89% 60% / 0.15)",
                     }}
                   >
-                    <i className="fa-solid fa-envelope" style={{ color: "hsl(199 89% 60%)" }} />
+                    <i className="fa-solid fa-envelope" style={{ color: "hsl(199 89% 60%)" }} aria-hidden="true" />
                   </div>
                   <span className="text-sm break-all">thummarayush05@gmail.com</span>
                 </a>
@@ -173,6 +177,7 @@ const Contact = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group"
+                  aria-label="View Ayush's GitHub profile (opens in a new tab)"
                 >
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
@@ -181,7 +186,7 @@ const Contact = () => {
                       border: "1px solid hsl(199 89% 60% / 0.15)",
                     }}
                   >
-                    <i className="fa-brands fa-github" style={{ color: "hsl(199 89% 60%)" }} />
+                    <i className="fa-brands fa-github" style={{ color: "hsl(199 89% 60%)" }} aria-hidden="true" />
                   </div>
                   <span className="text-sm break-all">github.com/Ayush5112006</span>
                 </a>
@@ -190,6 +195,7 @@ const Contact = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group"
+                  aria-label="View Ayush's LinkedIn profile (opens in a new tab)"
                 >
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
@@ -198,24 +204,9 @@ const Contact = () => {
                       border: "1px solid hsl(199 89% 60% / 0.15)",
                     }}
                   >
-                    <i className="fa-brands fa-linkedin" style={{ color: "hsl(199 89% 60%)" }} />
+                    <i className="fa-brands fa-linkedin" style={{ color: "hsl(199 89% 60%)" }} aria-hidden="true" />
                   </div>
                   <span className="text-sm break-all">linkedin.com/in/ayush-thummar-471720309</span>
-                </a>
-                <a
-                  href="#"
-                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group"
-                >
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105"
-                    style={{
-                      background: "hsl(199 89% 60% / 0.1)",
-                      border: "1px solid hsl(199 89% 60% / 0.15)",
-                    }}
-                  >
-                    <i className="fa-brands fa-instagram" style={{ color: "hsl(199 89% 60%)" }} />
-                  </div>
-                  <span className="text-sm">@ayushthummar</span>
                 </a>
               </div>
             </div>

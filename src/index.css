@@ -104,6 +104,17 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 96px;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid hsl(199 89% 60%);
+    outline-offset: 3px;
   }
 
   body {
@@ -234,6 +245,27 @@
 
   .stat-card .stat-label {
     @apply text-xs text-muted-foreground;
+  }
+
+  /* ──────────────── Hero Visual ──────────────── */
+  .hero-visual {
+    padding-top: 40px;
+    padding-bottom: 60px;
+    padding-right: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-visual {
+      padding-right: 180px;
+    }
+  }
+
+  /* ──────────────── Hero Label ──────────────── */
+  .hero-label {
+    @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold;
+    background: hsl(271 81% 56% / 0.12);
+    color: hsl(271 90% 78%);
+    border: 1px solid hsl(271 81% 56% / 0.3);
   }
 
   /* ──────────────── Hero Quote ──────────────── */
@@ -437,5 +469,20 @@
 
   .animate-spin-slow {
     animation: spin-slow 20s linear infinite;
+  }
+}
+
+/* ──────────────── Reduced Motion ──────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

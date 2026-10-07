@@ -4,21 +4,15 @@ import { useRef } from "react";
 const services = [
   {
     icon: "fa-solid fa-globe",
-    title: "Web Development",
+    title: "Web Applications",
     description:
       "Building modern, responsive web applications with React, Next.js, and cutting-edge technologies.",
   },
   {
     icon: "fa-solid fa-mobile-screen-button",
-    title: "App Development",
+    title: "Mobile Applications",
     description:
       "Cross-platform mobile applications with React Native and native integrations.",
-  },
-  {
-    icon: "fa-solid fa-palette",
-    title: "UI/UX Design",
-    description:
-      "Designing intuitive, beautiful interfaces that delight users and drive engagement.",
   },
   {
     icon: "fa-solid fa-robot",
@@ -27,8 +21,20 @@ const services = [
       "Integrating AI-powered features like chatbots, content generation, and intelligent automation.",
   },
   {
+    icon: "fa-solid fa-chart-column",
+    title: "Data Applications",
+    description:
+      "Dashboards, data-driven interfaces, and visualizations that turn raw data into useful insights.",
+  },
+  {
+    icon: "fa-solid fa-palette",
+    title: "UI/UX Design",
+    description:
+      "Designing intuitive, beautiful interfaces that delight users and drive engagement.",
+  },
+  {
     icon: "fa-solid fa-briefcase",
-    title: "Freelancing",
+    title: "Freelance Projects",
     description:
       "End-to-end project delivery from concept to deployment with ongoing support.",
   },
@@ -48,9 +54,9 @@ const Services = () => {
           className="section-header text-center"
         >
           <h2 className="section-title">
-            My <span className="gradient-text">Services</span>
+            What I <span className="gradient-text">Build</span>
           </h2>
-          <p className="section-subtitle">What I can do for you</p>
+          <p className="section-subtitle">Things I design, build, and ship</p>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -60,10 +66,10 @@ const Services = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="glass-card p-8 group text-center"
+              className="glass-card p-8 group text-center flex flex-col"
             >
               <div
-                className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 transition-all duration-300 group-hover:scale-110"
+                className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 transition-all duration-300 group-hover:scale-110 flex-shrink-0"
                 style={{
                   background: "hsl(199 89% 60% / 0.1)",
                   border: "1px solid hsl(199 89% 60% / 0.15)",
@@ -72,6 +78,7 @@ const Services = () => {
                 <i
                   className={`${service.icon} text-xl`}
                   style={{ color: "hsl(199 89% 60%)" }}
+                  aria-hidden="true"
                 />
               </div>
               <h3 className="text-lg font-semibold mb-3">{service.title}</h3>

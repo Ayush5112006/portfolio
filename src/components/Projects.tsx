@@ -11,6 +11,8 @@ const projects = [
     icon: "fa-solid fa-user-group",
     liveUrl: "https://alumni-connects-snowy.vercel.app/",
     githubUrl: "https://github.com/Ayush5112006/depstar",
+    featured: true,
+    highlight: "Payments + Invite Flows",
   },
   {
     title: "Hostel Mass Attendance",
@@ -21,6 +23,7 @@ const projects = [
     icon: "fa-solid fa-clipboard-check",
     liveUrl: "https://avj-peach.vercel.app/login",
     githubUrl: "https://github.com/Ayush5112006/hostel",
+    highlight: "Role-Based Access",
   },
   {
     title: "DDU Hackathon Platform",
@@ -31,6 +34,7 @@ const projects = [
     icon: "fa-solid fa-trophy",
     liveUrl: "https://dduhackathon.vercel.app/",
     githubUrl: "https://github.com/Ayush5112006/dduhack",
+    highlight: "Real-Time Leaderboard",
   },
   {
     title: "Train Ticket Booking",
@@ -41,6 +45,7 @@ const projects = [
     icon: "fa-solid fa-train",
     liveUrl: "",
     githubUrl: "https://github.com/Ayush5112006/Red-Feri",
+    highlight: "Seat Selection + Payments",
   },
   {
     title: "Mobile App with AdMob",
@@ -51,6 +56,7 @@ const projects = [
     icon: "fa-solid fa-mobile-screen-button",
     liveUrl: "",
     githubUrl: "",
+    highlight: "AdMob Monetization",
   },
 ];
 
@@ -77,7 +83,7 @@ const Projects = () => {
             Key <span className="gradient-text">Projects</span>
           </h2>
           <p className="section-subtitle mb-8">
-            A showcase of my recent work and personal projects
+            Selected academic and personal projects across web and mobile
           </p>
           <div className="flex justify-center gap-2 flex-wrap">
             {filters.map((f) => (
@@ -113,27 +119,59 @@ const Projects = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="glass-card p-6 group"
+              className="glass-card p-6 group flex flex-col"
+              style={
+                project.featured
+                  ? { borderColor: "hsl(199 89% 60% / 0.35)" }
+                  : undefined
+              }
             >
-              {/* Icon */}
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110"
-                style={{
-                  background: "hsl(199 89% 60% / 0.1)",
-                  border: "1px solid hsl(199 89% 60% / 0.15)",
-                }}
-              >
-                <i
-                  className={`${project.icon} text-lg`}
-                  style={{ color: "hsl(199 89% 60%)" }}
-                />
+              {/* Icon + badges */}
+              <div className="flex items-start justify-between gap-3 mb-5">
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 flex-shrink-0"
+                  style={{
+                    background: "hsl(199 89% 60% / 0.1)",
+                    border: "1px solid hsl(199 89% 60% / 0.15)",
+                  }}
+                >
+                  <i
+                    className={`${project.icon} text-lg`}
+                    style={{ color: "hsl(199 89% 60%)" }}
+                    aria-hidden="true"
+                  />
+                </div>
+                <div className="flex flex-col items-end gap-1.5 text-right">
+                  {project.featured && (
+                    <span
+                      className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg"
+                      style={{
+                        background: "hsl(271 81% 56% / 0.18)",
+                        color: "hsl(271 90% 78%)",
+                        border: "1px solid hsl(271 81% 56% / 0.35)",
+                      }}
+                    >
+                      Featured
+                    </span>
+                  )}
+                  <span
+                    className="px-2.5 py-1 text-[10px] font-semibold rounded-lg"
+                    style={{
+                      background: "hsl(225 40% 12%)",
+                      color: "hsl(199 89% 65%)",
+                      border: "1px solid hsl(199 89% 60% / 0.2)",
+                    }}
+                  >
+                    {project.highlight}
+                  </span>
+                </div>
               </div>
 
               {/* Title */}
               <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
 
               {/* Description */}
-              <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+              <p className="text-muted-foreground text-sm leading-relaxed mb-4 flex-1">
                 {project.description}
               </p>
 
@@ -155,16 +193,17 @@ const Projects = () => {
               </div>
 
               {/* Links */}
-              <div className="flex gap-3">
+              <div className="flex gap-4 mt-auto pt-1 border-t border-border/40">
                 {project.liveUrl && (
                   <a
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs font-medium flex items-center gap-1.5 transition-colors duration-200"
+                    className="text-xs font-medium flex items-center gap-1.5 transition-colors duration-200 py-3"
                     style={{ color: "hsl(199 89% 60%)" }}
+                    aria-label={`Open ${project.title} live demo (opens in a new tab)`}
                   >
-                    <i className="fa-solid fa-arrow-up-right-from-square" />
+                    <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" />
                     Live Demo
                   </a>
                 )}
@@ -173,9 +212,10 @@ const Projects = () => {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs font-medium flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors duration-200"
+                    className="text-xs font-medium flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors duration-200 py-3"
+                    aria-label={`View ${project.title} source code on GitHub (opens in a new tab)`}
                   >
-                    <i className="fa-brands fa-github" />
+                    <i className="fa-brands fa-github" aria-hidden="true" />
                     GitHub
                   </a>
                 )}

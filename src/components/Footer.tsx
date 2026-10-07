@@ -1,9 +1,8 @@
 const Footer = () => {
   const socials = [
-    { icon: "fa-brands fa-github", href: "https://github.com/Ayush5112006/" },
-    { icon: "fa-brands fa-linkedin", href: "https://www.linkedin.com/in/ayush-thummar-471720309/" },
-    { icon: "fa-brands fa-instagram", href: "#" },
-    { icon: "fa-solid fa-envelope", href: "mailto:thummarayush05@gmail.com" },
+    { icon: "fa-brands fa-github", href: "https://github.com/Ayush5112006/", label: "GitHub profile" },
+    { icon: "fa-brands fa-linkedin", href: "https://www.linkedin.com/in/ayush-thummar-471720309/", label: "LinkedIn profile" },
+    { icon: "fa-solid fa-envelope", href: "mailto:thummarayush05@gmail.com", label: "Send an email" },
   ];
 
   return (
@@ -42,8 +41,10 @@ const Footer = () => {
                   background: "hsl(225 40% 12%)",
                   border: "1px solid hsl(225 30% 18%)",
                 }}
+                aria-label={s.label}
+                title={s.label}
               >
-                <i className={`${s.icon} text-sm`} />
+                <i className={`${s.icon} text-sm`} aria-hidden="true" />
               </a>
             ))}
           </div>

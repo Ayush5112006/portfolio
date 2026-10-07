@@ -39,10 +39,10 @@ const Experience = () => {
           className="section-header text-center"
         >
           <h2 className="section-title">
-            Professional <span className="gradient-text">Journey</span>
+            My <span className="gradient-text">Journey</span>
           </h2>
           <p className="section-subtitle">
-            The path that shaped me as a developer
+            From first lines of code to AI and full-stack development
           </p>
         </motion.div>
 

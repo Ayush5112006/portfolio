@@ -1,23 +1,26 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
+
+const GMAIL_USER = process.env.GMAIL_USER || "thummarayush05@gmail.com";
+const GMAIL_PASS = process.env.GMAIL_APP_PASSWORD || "vldkjsjvcnyrmjba";
+const RECIPIENT = process.env.NOTIFICATION_EMAIL || "thummarayush05@gmail.com";
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: GMAIL_USER,
+    pass: GMAIL_PASS,
+  },
+});
 
 export async function sendNotificationEmail({ name, email, message }) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.log("ℹ️ RESEND_API_KEY is not set — email notification skipped (saved to MongoDB only).");
-    return { skipped: true };
-  }
-
-  const resend = new Resend(apiKey);
-  const recipient = process.env.NOTIFICATION_EMAIL || "thummarayush05@gmail.com";
-
   try {
-    const result = await resend.emails.send({
-      from: "Portfolio Contact <onboarding@resend.dev>",
-      to: [recipient],
+    const info = await transporter.sendMail({
+      from: `"Portfolio Contact Form" <${GMAIL_USER}>`,
+      to: RECIPIENT,
       replyTo: email,
       subject: `📬 New Portfolio Message from ${name}`,
       html: `
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #0b0f19; color: #f8fafc; border-radius: 12px; padding: 24px; border: 1px solid #1e293b;">
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0b0f19; color: #f8fafc; border-radius: 12px; padding: 24px; border: 1px solid #1e293b;">
           <h2 style="color: #38bdf8; margin-top: 0; border-bottom: 1px solid #1e293b; padding-bottom: 14px; font-size: 20px;">
             🚀 New Portfolio Message
           </h2>
@@ -39,15 +42,17 @@ export async function sendNotificationEmail({ name, email, message }) {
             </a>
           </div>
           <p style="margin-top: 20px; font-size: 11px; color: #64748b; text-align: center;">
-            Sent automatically from your portfolio backend at ayushthummar.vercel.app
+            Sent automatically to ${RECIPIENT} from your portfolio at ayushthummar.vercel.app
           </p>
         </div>
       `,
     });
-    console.log("✅ Email notification sent via Resend:", result);
-    return { success: true, result };
+    console.log("✅ Email sent via Gmail SMTP:", info.messageId);
+    return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error("❌ Failed to send email via Resend:", error.message);
+    console.error("❌ Failed to send email via Gmail SMTP:", error.message);
     return { success: false, error: error.message };
   }
 }
+
+export default sendNotificationEmail;

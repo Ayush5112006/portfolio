@@ -39,6 +39,7 @@ const ParticleCanvas = () => {
     }));
 
     const maxDist = 160;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -46,14 +47,16 @@ const ParticleCanvas = () => {
 
       // Update & draw particles
       for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
+        if (!reducedMotion) {
+          p.x += p.vx;
+          p.y += p.vy;
 
-        // Wrap around edges
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+          // Wrap around edges
+          if (p.x < 0) p.x = canvas.width;
+          if (p.x > canvas.width) p.x = 0;
+          if (p.y < 0) p.y = canvas.height;
+          if (p.y > canvas.height) p.y = 0;
+        }
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
@@ -80,7 +83,9 @@ const ParticleCanvas = () => {
         }
       }
 
-      animationRef.current = requestAnimationFrame(animate);
+      if (!reducedMotion) {
+        animationRef.current = requestAnimationFrame(animate);
+      }
     };
 
     animate();
