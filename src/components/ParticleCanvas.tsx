@@ -27,8 +27,12 @@ const ParticleCanvas = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    // Create particles
-    const count = Math.min(80, Math.floor(window.innerWidth / 18));
+    // Create particles — lighter count on small screens for performance
+    const mobile = window.innerWidth < 768;
+    const count = Math.min(
+      mobile ? 34 : 70,
+      Math.floor(window.innerWidth / (mobile ? 34 : 22))
+    );
     particlesRef.current = Array.from({ length: count }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
@@ -38,10 +42,16 @@ const ParticleCanvas = () => {
       opacity: Math.random() * 0.5 + 0.15,
     }));
 
-    const maxDist = 160;
+    const maxDist = 150;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const animate = () => {
+      // Stop rendering work while the tab is in the background
+      if (document.hidden) {
+        animationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const particles = particlesRef.current;
 

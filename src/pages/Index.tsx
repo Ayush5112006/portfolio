@@ -1,4 +1,7 @@
 import ParticleCanvas from "@/components/ParticleCanvas";
+import CursorGlow from "@/components/CursorGlow";
+import ScrollProgress from "@/components/ScrollProgress";
+import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import TrustStrip from "@/components/TrustStrip";
@@ -19,6 +22,9 @@ import ScrollToTop from "@/components/ScrollToTop";
 const Index = () => {
   return (
     <div className="min-h-screen bg-background relative">
+      <Preloader />
+      <ScrollProgress />
+      <CursorGlow />
       <ParticleCanvas />
       <Navbar />
       <Hero />

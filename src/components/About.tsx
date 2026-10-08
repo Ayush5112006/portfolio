@@ -1,7 +1,6 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
 import { Code2, Target, Layers } from "lucide-react";
+import Reveal from "./Reveal";
+import SpotlightCard from "./SpotlightCard";
 
 const aboutCards = [
   {
@@ -10,6 +9,7 @@ const aboutCards = [
     title: "How I Work",
     description:
       "I enjoy turning ideas into practical applications by combining programming, machine learning, APIs, databases, and modern web technologies.",
+    wide: true,
   },
   {
     icon: Layers,
@@ -17,6 +17,7 @@ const aboutCards = [
     title: "Hands-On Projects",
     description:
       "Through academic projects, hackathons, and hands-on development, I have worked on AI-powered applications, full-stack systems, dashboards, and real-world software solutions.",
+    wide: false,
   },
   {
     icon: Target,
@@ -24,70 +25,78 @@ const aboutCards = [
     title: "Goals & Growth",
     description:
       "I'm continuously learning and looking for opportunities to grow as an AI/ML Engineer and Software Developer.",
+    wide: false,
   },
 ];
 
 const About = () => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="about" className="section-padding" ref={ref} style={{ zIndex: 1, position: "relative" }}>
+    <section id="about" className="section-padding" style={{ zIndex: 1, position: "relative" }}>
       <div className="container mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="section-header text-center"
-        >
-          <h2 className="section-title">
-            About <span className="gradient-text">Me</span>
-          </h2>
-          <p className="section-subtitle">
-            B.Tech CSE student at CHARUSAT building AI-powered and full-stack applications
-          </p>
-        </motion.div>
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          {/* Left — heading + intro */}
+          <div className="lg:col-span-5 lg:sticky lg:top-28">
+            <Reveal y={24} blur={8}>
+              <span className="eyebrow">About</span>
+              <h2 className="section-title">
+                About <span className="gradient-text">Me</span>
+              </h2>
+              <p className="section-subtitle">
+                B.Tech CSE student at CHARUSAT building AI-powered and full-stack applications
+              </p>
+            </Reveal>
 
-        {/* Intro */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="max-w-3xl mx-auto text-center text-muted-foreground leading-relaxed mb-12 -mt-6"
-        >
-          I'm <strong className="text-foreground">Ayush Thummar</strong>, a{" "}
-          <strong className="text-foreground">B.Tech Computer Science Engineering</strong> student at{" "}
-          <strong className="text-foreground">CHARUSAT</strong> with a strong interest in{" "}
-          <strong className="text-foreground">Artificial Intelligence, Machine Learning, Data Science</strong>, and
-          software development.
-        </motion.p>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {aboutCards.map((item, i) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.15 + i * 0.15 }}
-              className="glass-card p-8 group flex flex-col"
-            >
+            <Reveal delay={0.12} y={24} blur={8}>
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110 flex-shrink-0"
-                style={{
-                  background: "hsl(199 89% 60% / 0.1)",
-                  border: "1px solid hsl(199 89% 60% / 0.15)",
-                }}
+                className="mt-7 pl-5 text-muted-foreground leading-relaxed"
+                style={{ borderLeft: "2px solid hsl(199 89% 60% / 0.35)" }}
               >
-                <i
-                  className={`${item.faIcon} text-lg`}
-                  style={{ color: "hsl(199 89% 60%)" }}
-                  aria-hidden="true"
-                />
+                I'm <strong className="text-foreground">Ayush Thummar</strong>, a{" "}
+                <strong className="text-foreground">B.Tech Computer Science Engineering</strong> student at{" "}
+                <strong className="text-foreground">CHARUSAT</strong> with a strong interest in{" "}
+                <strong className="text-foreground">Artificial Intelligence, Machine Learning, Data Science</strong>,
+                and software development.
               </div>
-              <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
-            </motion.div>
-          ))}
+            </Reveal>
+          </div>
+
+          {/* Right — bento cards */}
+          <div className="lg:col-span-7 grid sm:grid-cols-2 gap-5">
+            {aboutCards.map((item, i) => (
+              <Reveal
+                key={item.title}
+                delay={0.1 + i * 0.1}
+                y={30}
+                blur={8}
+                className={item.wide ? "sm:col-span-2" : undefined}
+              >
+                <SpotlightCard className="bento-card h-full p-7">
+                  <div className="flex items-start gap-4">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+                      style={{
+                        background: "hsl(199 89% 60% / 0.1)",
+                        border: "1px solid hsl(199 89% 60% / 0.18)",
+                        boxShadow: "0 0 24px hsl(199 89% 60% / 0.12)",
+                      }}
+                    >
+                      <i
+                        className={`${item.faIcon} text-lg`}
+                        style={{ color: "hsl(199 89% 60%)" }}
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                </SpotlightCard>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>

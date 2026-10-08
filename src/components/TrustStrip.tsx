@@ -35,7 +35,7 @@ const TrustStrip = () => {
         aria-label="Quick facts"
       >
         {facts.map((fact, i) => (
-          <li key={fact.text} className="flex items-center gap-7">
+          <li key={fact.text} className="group flex items-center gap-7">
             {i > 0 && (
               <span
                 className="hidden sm:block w-px h-4"
@@ -43,9 +43,9 @@ const TrustStrip = () => {
                 aria-hidden="true"
               />
             )}
-            <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+            <span className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground">
               <i
-                className={`${fact.icon} text-xs`}
+                className={`${fact.icon} text-xs transition-transform duration-300 group-hover:scale-110`}
                 style={{ color: "hsl(199 89% 60%)" }}
                 aria-hidden="true"
               />

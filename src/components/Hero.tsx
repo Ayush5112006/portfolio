@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   BarChart3,
@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { useEffect, useState, type CSSProperties } from "react";
 import type { LucideIcon } from "lucide-react";
+import Magnetic from "./Magnetic";
+import SpotlightCard from "./SpotlightCard";
 
 const techTags = [
   { icon: "fa-brands fa-python", label: "Python" },
@@ -94,23 +96,47 @@ const HighlightCard = ({
   style?: CSSProperties;
 }) => (
   <motion.div
-    className={`stat-card ${className}`}
+    className={className}
     style={style}
     animate={{ y: card.float }}
     transition={{ duration: card.duration, repeat: Infinity, ease: "easeInOut", delay: card.delay }}
   >
-    <div className="stat-icon">
-      <card.icon className="h-4 w-4" aria-hidden="true" />
-    </div>
-    <div className="min-w-0">
-      <span className="stat-val">{card.title}</span>
-      <span className="stat-label block">{card.subtitle}</span>
-    </div>
+    <SpotlightCard className="stat-card w-full">
+      <div className="stat-icon">
+        <card.icon className="h-4 w-4" aria-hidden="true" />
+      </div>
+      <div className="min-w-0">
+        <span className="stat-val">{card.title}</span>
+        <span className="stat-label block">{card.subtitle}</span>
+      </div>
+    </SpotlightCard>
   </motion.div>
 );
 
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const lineTransition = (i: number) => ({
+  initial: { y: "115%", opacity: 0 },
+  animate: { y: "0%", opacity: 1 },
+  transition: { duration: 0.85, delay: 0.15 + i * 0.13, ease: EASE },
+});
+
+const fadeUp = (delay: number) => ({
+  initial: { opacity: 0, y: 22, filter: "blur(6px)" },
+  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+  transition: { duration: 0.7, delay, ease: EASE },
+});
+
 const Hero = () => {
   const [showResume, setShowResume] = useState(false);
+  const reduceMotion = useReducedMotion();
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const px = useSpring(mouseX, { stiffness: 60, damping: 20 });
+  const py = useSpring(mouseY, { stiffness: 60, damping: 20 });
+  const rotateY = useSpring(mouseX, { stiffness: 50, damping: 18 });
+  const rotateX = useSpring(mouseY, { stiffness: 50, damping: 18 });
 
   useEffect(() => {
     if (!showResume) return;
@@ -121,29 +147,63 @@ const Hero = () => {
     return () => window.removeEventListener("keydown", onKey);
   }, [showResume]);
 
+  const onPointerMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (reduceMotion) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const nx = (e.clientX - rect.left) / rect.width - 0.5;
+    const ny = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(nx * 26);
+    mouseY.set(ny * 20);
+  };
+
   return (
     <>
       <section
         id="home"
         className="relative min-h-screen flex items-center section-padding pt-28 overflow-hidden"
         style={{ zIndex: 1 }}
+        onMouseMove={onPointerMove}
       >
+        {/* Animated technical grid */}
+        <div className="grid-backdrop" aria-hidden="true" />
+
+        {/* Soft radial glows behind hero */}
+        <motion.div
+          aria-hidden="true"
+          className="absolute pointer-events-none"
+          style={{
+            width: "620px",
+            height: "620px",
+            top: "-160px",
+            left: "-140px",
+            background:
+              "radial-gradient(circle, hsl(199 89% 60% / 0.16) 0%, transparent 65%)",
+            x: px,
+            y: py,
+          }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute pointer-events-none"
+          style={{
+            width: "560px",
+            height: "560px",
+            bottom: "-180px",
+            right: "-120px",
+            background:
+              "radial-gradient(circle, hsl(271 81% 56% / 0.14) 0%, transparent 65%)",
+            x: px,
+            y: py,
+          }}
+        />
+
         <div className="container mx-auto relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Text Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7 }}
-              className="min-w-0"
-            >
+            <div className="min-w-0">
               {/* Status + Student Badge */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="mb-6 flex flex-wrap items-center gap-3"
-              >
+              <motion.div {...fadeUp(0.05)} className="mb-6 flex flex-wrap items-center gap-3">
                 <div className="status-badge">
                   <span className="pulse-dot" />
                   Open to AI/ML &amp; Software Development Opportunities
@@ -154,65 +214,80 @@ const Hero = () => {
                 </span>
               </motion.div>
 
-              {/* Main Heading */}
+              {/* Main Heading — staggered line reveal */}
               <h1
-                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6"
+                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.12] mb-6"
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
-                Building <span className="gradient-text">Intelligent</span>
-                <br />
-                Solutions With <span className="gradient-text">AI &amp; Code</span>
+                <span className="block overflow-hidden pb-1">
+                  <motion.span className="block" {...lineTransition(0)}>
+                    Building <span className="gradient-text-animated">Intelligent</span>
+                  </motion.span>
+                </span>
+                <span className="block overflow-hidden pb-1">
+                  <motion.span className="block" {...lineTransition(1)}>
+                    Solutions With{" "}
+                    <span className="gradient-text-animated">AI &amp; Code</span>
+                  </motion.span>
+                </span>
               </h1>
 
               {/* Bio */}
-              <p className="text-base md:text-lg text-muted-foreground mb-4 max-w-xl leading-relaxed">
+              <motion.p
+                {...fadeUp(0.45)}
+                className="text-base md:text-lg text-muted-foreground mb-4 max-w-xl leading-relaxed"
+              >
                 Hi, I'm <strong className="text-foreground">Ayush Thummar</strong>. I'm a{" "}
                 <strong className="text-foreground">B.Tech Computer Science Engineering</strong> student at{" "}
                 <strong className="text-foreground">CHARUSAT</strong>, passionate about{" "}
                 <strong className="text-foreground">Artificial Intelligence, Machine Learning, Data Science</strong>,
                 and modern software development. I build practical applications that combine AI, software
                 engineering, and real-world problem solving.
-              </p>
+              </motion.p>
 
               {/* Quote */}
-              <div className="hero-quote">
+              <motion.div {...fadeUp(0.55)} className="hero-quote">
                 <i className="fa-solid fa-quote-left mr-2 opacity-40" aria-hidden="true" />
                 I enjoy turning ideas into practical applications — clean code, intelligent features, and
                 real-world problem solving are my passions.
                 <i className="fa-solid fa-quote-right ml-2 opacity-40" aria-hidden="true" />
-              </div>
+              </motion.div>
 
               {/* Tech Tags */}
-              <div className="flex flex-wrap gap-2 mb-8">
+              <motion.div {...fadeUp(0.65)} className="flex flex-wrap gap-2 mb-8">
                 {techTags.map((tag) => (
                   <span key={tag.label} className="tech-tag">
                     <i className={tag.icon} aria-hidden="true" />
                     {tag.label}
                   </span>
                 ))}
-              </div>
+              </motion.div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4 mb-6">
-                <a href="#projects" className="btn-primary-custom">
-                  View Projects <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </a>
-                <button
-                  onClick={() => setShowResume(true)}
-                  className="btn-outline-custom"
-                  aria-haspopup="dialog"
-                >
-                  <Download className="h-4 w-4" aria-hidden="true" /> Download Resume
-                </button>
-              </div>
+              <motion.div {...fadeUp(0.75)} className="flex flex-wrap gap-4 mb-6">
+                <Magnetic>
+                  <a href="#projects" className="btn-primary-custom">
+                    View Projects <ArrowRight className="h-4 w-4 btn-arrow" aria-hidden="true" />
+                  </a>
+                </Magnetic>
+                <Magnetic>
+                  <button
+                    onClick={() => setShowResume(true)}
+                    className="btn-outline-custom"
+                    aria-haspopup="dialog"
+                  >
+                    <Download className="h-4 w-4" aria-hidden="true" /> Download Resume
+                  </button>
+                </Magnetic>
+              </motion.div>
 
               {/* Social Links */}
-              <div className="flex items-center gap-3">
+              <motion.div {...fadeUp(0.85)} className="flex items-center gap-3">
                 <a
                   href="https://github.com/Ayush5112006/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300"
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300 hover:-translate-y-1 hover:border-primary/50"
                   style={{
                     background: "hsl(225 45% 12%)",
                     border: "1px solid hsl(225 30% 20%)",
@@ -223,7 +298,7 @@ const Hero = () => {
                 </a>
                 <a
                   href="mailto:thummarayush05@gmail.com"
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300"
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300 hover:-translate-y-1 hover:border-primary/50"
                   style={{
                     background: "hsl(225 45% 12%)",
                     border: "1px solid hsl(225 30% 20%)",
@@ -236,7 +311,7 @@ const Hero = () => {
                   href="https://www.linkedin.com/in/ayush-thummar-471720309/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300"
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground transition-all duration-300 hover:-translate-y-1 hover:border-primary/50"
                   style={{
                     background: "hsl(225 45% 12%)",
                     border: "1px solid hsl(225 30% 20%)",
@@ -245,17 +320,20 @@ const Hero = () => {
                 >
                   <Linkedin className="h-4 w-4" aria-hidden="true" />
                 </a>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
 
             {/* Visual Side — Photo + Floating Cards */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
+              initial={{ opacity: 0, scale: 0.85, filter: "blur(10px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col items-center lg:items-end overflow-visible hero-visual"
             >
-              <div className="relative" style={{ width: "260px", height: "260px" }}>
+              <div
+                className="relative"
+                style={{ width: "260px", height: "260px", perspective: "1000px" }}
+              >
                 {/* Orbiting ring */}
                 <div
                   className="hidden sm:block"
@@ -289,23 +367,59 @@ const Hero = () => {
                   aria-hidden="true"
                 />
 
-                {/* Profile Photo */}
+                {/* Spotlight halo behind the photo */}
                 <div
-                  className="w-64 h-64 rounded-full overflow-hidden relative z-10"
+                  className="absolute pointer-events-none"
                   style={{
-                    border: "3px solid hsl(199 89% 60% / 0.3)",
-                    boxShadow:
-                      "0 0 40px hsl(199 89% 60% / 0.15), 0 0 80px hsl(271 81% 56% / 0.08)",
+                    width: "340px",
+                    height: "340px",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    background:
+                      "radial-gradient(circle, hsl(199 89% 60% / 0.18) 0%, transparent 62%)",
+                    filter: "blur(6px)",
                   }}
+                  aria-hidden="true"
+                />
+
+                {/* Profile Photo — depth/parallax */}
+                <motion.div
+                  style={{
+                    rotateX,
+                    rotateY,
+                    transformStyle: "preserve-3d",
+                    x: px,
+                    y: py,
+                  }}
+                  className="w-64 h-64 rounded-full overflow-hidden relative z-10"
                 >
-                  <img
-                    src="/Ayush short.jpeg"
-                    alt="Ayush Thummar — AI/ML and Software Developer"
-                    width={256}
-                    height={256}
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
+                  <div
+                    className="w-full h-full rounded-full overflow-hidden"
+                    style={{
+                      border: "3px solid hsl(199 89% 60% / 0.3)",
+                      boxShadow:
+                        "0 0 40px hsl(199 89% 60% / 0.15), 0 0 80px hsl(271 81% 56% / 0.08)",
+                    }}
+                  >
+                    <img
+                      src="/Ayush short.jpeg"
+                      alt="Ayush Thummar — AI/ML and Software Developer"
+                      width={256}
+                      height={256}
+                      className="w-full h-full object-cover object-top"
+                    />
+                    {/* Glass reflection sweep */}
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background:
+                          "linear-gradient(140deg, hsl(0 0% 100% / 0.14) 0%, transparent 42%)",
+                      }}
+                      aria-hidden="true"
+                    />
+                  </div>
+                </motion.div>
 
                 {/* Floating highlight cards — desktop (lg+ on the right, xl+ on the left) */}
                 {heroCards.map((card) => (
@@ -343,17 +457,18 @@ const Hero = () => {
             onClick={() => setShowResume(false)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              initial={{ scale: 0.9, opacity: 0, y: 20, filter: "blur(6px)" }}
+              animate={{ scale: 1, opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ scale: 0.94, opacity: 0, y: 10, filter: "blur(4px)" }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               role="dialog"
               aria-modal="true"
               aria-label="Resume preview"
               className="relative rounded-2xl shadow-2xl w-full max-w-3xl h-[85vh] flex flex-col overflow-hidden"
               style={{
                 background: "hsl(225 45% 8%)",
-                border: "1px solid hsl(225 30% 16% / 0.5)",
+                border: "1px solid hsl(199 89% 60% / 0.22)",
+                boxShadow: "0 30px 90px -30px hsl(228 60% 2% / 1)",
               }}
               onClick={(e) => e.stopPropagation()}
             >

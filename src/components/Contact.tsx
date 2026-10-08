@@ -2,6 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Send, Loader2, CheckCircle, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
+import SpotlightCard from "./SpotlightCard";
 
 const EMAIL = "thummarayush05@gmail.com";
 
@@ -55,19 +56,35 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="section-padding" ref={ref} style={{ zIndex: 1, position: "relative" }}>
-      <div className="container mx-auto">
+    <section id="contact" className="section-padding overflow-hidden" ref={ref} style={{ zIndex: 1, position: "relative" }}>
+      {/* Conversion glow */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          width: "720px",
+          height: "720px",
+          left: "50%",
+          top: "-40%",
+          transform: "translateX(-50%)",
+          background:
+            "radial-gradient(circle, hsl(199 89% 60% / 0.1) 0%, transparent 62%)",
+        }}
+        aria-hidden="true"
+      />
+      <div className="container mx-auto relative">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="section-header text-center"
         >
+          <span className="eyebrow ml-auto mr-auto">Contact</span>
           <h2 className="section-title">
-            Get In <span className="gradient-text">Touch</span>
+            Let's Build <span className="gradient-text">Something Meaningful</span>
           </h2>
-          <p className="section-subtitle">
-            Open to AI/ML and software development opportunities — let's talk
+          <p className="section-subtitle mx-auto">
+            Open to AI/ML opportunities, software development roles, internships,
+            collaborations, and challenging technical projects.
           </p>
         </motion.div>
 
@@ -87,19 +104,7 @@ const Contact = () => {
                 aria-label="Your Name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl outline-none transition-all text-foreground placeholder:text-muted-foreground"
-                style={{
-                  background: "hsl(225 40% 12%)",
-                  border: "1px solid hsl(225 30% 18%)",
-                }}
-                onFocus={(e) => {
-                  e.currentTarget.style.borderColor = "hsl(199 89% 60% / 0.5)";
-                  e.currentTarget.style.boxShadow = "0 0 20px hsl(199 89% 60% / 0.08)";
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.borderColor = "hsl(225 30% 18%)";
-                  e.currentTarget.style.boxShadow = "none";
-                }}
+                className="field"
                 required
               />
             </div>
@@ -110,19 +115,7 @@ const Contact = () => {
                 aria-label="Your Email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl outline-none transition-all text-foreground placeholder:text-muted-foreground"
-                style={{
-                  background: "hsl(225 40% 12%)",
-                  border: "1px solid hsl(225 30% 18%)",
-                }}
-                onFocus={(e) => {
-                  e.currentTarget.style.borderColor = "hsl(199 89% 60% / 0.5)";
-                  e.currentTarget.style.boxShadow = "0 0 20px hsl(199 89% 60% / 0.08)";
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.borderColor = "hsl(225 30% 18%)";
-                  e.currentTarget.style.boxShadow = "none";
-                }}
+                className="field"
                 required
               />
             </div>
@@ -133,19 +126,7 @@ const Contact = () => {
                 rows={5}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl outline-none transition-all text-foreground placeholder:text-muted-foreground resize-none"
-                style={{
-                  background: "hsl(225 40% 12%)",
-                  border: "1px solid hsl(225 30% 18%)",
-                }}
-                onFocus={(e) => {
-                  e.currentTarget.style.borderColor = "hsl(199 89% 60% / 0.5)";
-                  e.currentTarget.style.boxShadow = "0 0 20px hsl(199 89% 60% / 0.08)";
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.borderColor = "hsl(225 30% 18%)";
-                  e.currentTarget.style.boxShadow = "none";
-                }}
+                className="field resize-none"
                 required
               />
             </div>
@@ -166,12 +147,12 @@ const Contact = () => {
 
           {/* Contact Info */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            initial={{ opacity: 0, x: 30, filter: "blur(6px)" }}
+            animate={inView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col justify-center"
           >
-            <div className="glass-card p-8 space-y-6">
+            <SpotlightCard className="glass-card p-7 md:p-8 space-y-6">
               <h3 className="text-xl font-bold mb-2">Let's Connect</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">
                 I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
@@ -282,7 +263,7 @@ const Contact = () => {
                   <span className="text-sm break-all">ayushthummar.netlify.app</span>
                 </a>
               </div>
-            </div>
+            </SpotlightCard>
           </motion.div>
         </div>
       </div>

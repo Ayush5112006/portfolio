@@ -13,6 +13,24 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    title: "Deepfake & AI-Generated Content Detection Platform",
+    description:
+      "An AI-powered platform that detects deepfakes and AI-generated content using computer vision and machine learning, served through a FastAPI backend with a React interface for analyzing and reviewing media.",
+    tags: ["AI / ML", "Computer Vision", "Python", "FastAPI", "React", "Node.js", "MongoDB"],
+    categories: ["AI", "ML"],
+    icon: "fa-solid fa-shield-halved",
+    liveUrl: "",
+    githubUrl: "",
+    featured: true,
+    highlight: "Computer Vision Detection",
+    caseStudy: [
+      "Detects deepfake and AI-generated media using computer vision techniques",
+      "Machine learning model inference served through a FastAPI backend",
+      "React and Node.js interface with MongoDB for analyzing and reviewing content",
+      "End-to-end AI workflow connecting models with a production-style web application",
+    ],
+  },
+  {
     title: "Alumni Connect",
     description:
       "A college networking platform that connects colleges, students, and alumni, with universal user invite flows and Razorpay payment API integration for premium features.",

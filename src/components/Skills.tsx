@@ -1,25 +1,30 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Play, Pause, RotateCw, Sparkles } from "lucide-react";
+import SectionHeading from "./SectionHeading";
+import Reveal from "./Reveal";
+import SpotlightCard from "./SpotlightCard";
 
 const skills = [
-  { name: "Python", icon: "fa-brands fa-python", color: "#3776ab" },
-  { name: "Machine Learning", icon: "fa-solid fa-brain", color: "#a78bfa" },
-  { name: "Computer Vision", icon: "fa-solid fa-eye", color: "#22d3ee" },
-  { name: "Data Science", icon: "fa-solid fa-chart-line", color: "#f59e0b" },
-  { name: "JavaScript", icon: "fa-brands fa-js", color: "#f7df1e" },
-  { name: "React", icon: "fa-brands fa-react", color: "#61dafb" },
-  { name: "Next.js", icon: "fa-brands fa-react", color: "#ffffff" },
-  { name: "Tailwind", icon: "fa-solid fa-wind", color: "#38bdf8" },
-  { name: "Node.js", icon: "fa-brands fa-node-js", color: "#68a063" },
-  { name: "Express", icon: "fa-solid fa-server", color: "#999999" },
-  { name: "FastAPI", icon: "fa-solid fa-bolt", color: "#009688" },
-  { name: "MongoDB", icon: "fa-solid fa-database", color: "#47a248" },
-  { name: "MySQL", icon: "fa-solid fa-database", color: "#00758f" },
-  { name: "Firebase", icon: "fa-solid fa-fire", color: "#ffca28" },
-  { name: "Git", icon: "fa-brands fa-git-alt", color: "#f05032" },
-  { name: "AI Tools", icon: "fa-solid fa-robot", color: "#a78bfa" },
+  { name: "Python", icon: "fa-brands fa-python", color: "#3776ab", cat: "AI / ML" },
+  { name: "Machine Learning", icon: "fa-solid fa-brain", color: "#a78bfa", cat: "AI / ML" },
+  { name: "Computer Vision", icon: "fa-solid fa-eye", color: "#22d3ee", cat: "AI / ML" },
+  { name: "Data Science", icon: "fa-solid fa-chart-line", color: "#f59e0b", cat: "Data" },
+  { name: "JavaScript", icon: "fa-brands fa-js", color: "#f7df1e", cat: "Frontend" },
+  { name: "React", icon: "fa-brands fa-react", color: "#61dafb", cat: "Frontend" },
+  { name: "Next.js", icon: "fa-brands fa-react", color: "#ffffff", cat: "Frontend" },
+  { name: "Tailwind", icon: "fa-solid fa-wind", color: "#38bdf8", cat: "Frontend" },
+  { name: "Node.js", icon: "fa-brands fa-node-js", color: "#68a063", cat: "Backend" },
+  { name: "Express", icon: "fa-solid fa-server", color: "#999999", cat: "Backend" },
+  { name: "FastAPI", icon: "fa-solid fa-bolt", color: "#009688", cat: "Backend" },
+  { name: "MongoDB", icon: "fa-solid fa-database", color: "#47a248", cat: "Database" },
+  { name: "MySQL", icon: "fa-solid fa-database", color: "#00758f", cat: "Database" },
+  { name: "Firebase", icon: "fa-solid fa-fire", color: "#ffca28", cat: "Database" },
+  { name: "Git", icon: "fa-brands fa-git-alt", color: "#f05032", cat: "Tools" },
+  { name: "AI Tools", icon: "fa-solid fa-robot", color: "#a78bfa", cat: "Tools" },
 ];
+
+const categories = ["All", "AI / ML", "Data", "Frontend", "Backend", "Database", "Tools"];
 
 const skillGroups = [
   {
@@ -83,6 +88,7 @@ const Skills = () => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [direction, setDirection] = useState<"normal" | "reverse">("normal");
   const [autoCycling, setAutoCycling] = useState<boolean>(true);
+  const [category, setCategory] = useState<string>("All");
 
   const speed = 38; // seconds per full 360-degree rotation
   const radius = 200;
@@ -116,19 +122,49 @@ const Skills = () => {
   return (
     <section id="skills" className="section-padding" ref={ref} style={{ zIndex: 1, position: "relative" }}>
       <div className="container mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="section-header text-center"
+        <SectionHeading
+          eyebrow="Tech Stack"
+          title={
+            <>
+              Tech <span className="gradient-text">Stack</span>
+            </>
+          }
+          subtitle="An interactive orbit of my core skills, with a full grouped breakdown of my tech stack below."
+        />
+
+        {/* Category filter */}
+        <Reveal
+          delay={0.1}
+          y={16}
+          blur={6}
+          className="flex flex-wrap justify-center gap-2 mb-10 -mt-8"
         >
-          <h2 className="section-title">
-            Tech <span className="gradient-text">Stack</span>
-          </h2>
-          <p className="section-subtitle">
-            An interactive orbit of my core skills, with a full grouped breakdown of my tech stack below.
-          </p>
-        </motion.div>
+          <div role="group" aria-label="Filter skills by category" className="flex flex-wrap justify-center gap-2">
+            {categories.map((c) => {
+              const selected = category === c;
+              return (
+                <button
+                  key={c}
+                  onClick={() => setCategory(c)}
+                  aria-pressed={selected}
+                  className="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-300"
+                  style={{
+                    background: selected
+                      ? "linear-gradient(135deg, hsl(199 89% 60% / 0.2), hsl(271 81% 56% / 0.18))"
+                      : "hsl(225 40% 12% / 0.7)",
+                    color: selected ? "hsl(199 89% 70%)" : "hsl(215 20% 58%)",
+                    border: selected
+                      ? "1px solid hsl(199 89% 60% / 0.45)"
+                      : "1px solid hsl(225 30% 16%)",
+                    boxShadow: selected ? "0 0 18px hsl(199 89% 60% / 0.18)" : "none",
+                  }}
+                >
+                  {c}
+                </button>
+              );
+            })}
+          </div>
+        </Reveal>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -236,19 +272,22 @@ const Skills = () => {
                   const x = Math.cos(angle) * radius;
                   const y = Math.sin(angle) * radius;
                   const isActive = activeSkill === skill.name;
+                  const dimmed = category !== "All" && skill.cat !== category;
 
                   return (
                     <button
                       key={skill.name}
                       onClick={() => handleSkillClick(skill.name)}
-                      className="absolute flex flex-col items-center group/node cursor-pointer pointer-events-auto select-none"
+                      className="absolute flex flex-col items-center group/node cursor-pointer pointer-events-auto select-none transition-opacity duration-500"
                       style={{
                         left: `calc(50% + ${x}px)`,
                         top: `calc(50% + ${y}px)`,
                         transform: "translate(-50%, -50%)",
+                        opacity: dimmed ? 0.22 : 1,
                       }}
                       title={`Select ${skill.name}`}
                       aria-label={`Tech stack skill: ${skill.name}`}
+                      aria-pressed={isActive}
                     >
                       {/* Counter-rotating element keeps icon & label always upright */}
                       <div
@@ -367,11 +406,12 @@ const Skills = () => {
           {/* Details Card */}
           <motion.div
             key={activeSkill}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-            className="glass-card p-8 max-w-md w-full"
+            initial={{ opacity: 0, x: 20, filter: "blur(6px)" }}
+            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.35 }}
+            className="max-md:w-full max-w-md w-full"
           >
+            <SpotlightCard className="glass-card p-8">
             <div className="flex items-center gap-4 mb-4">
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300"
@@ -414,6 +454,7 @@ const Skills = () => {
                 View in Projects
               </a>
             </div>
+            </SpotlightCard>
           </motion.div>
         </motion.div>
 
