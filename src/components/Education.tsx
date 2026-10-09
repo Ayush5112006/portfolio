@@ -12,7 +12,7 @@ const educationList = [
     grade: "CGPA: 7.17",
     pursuing: true,
     description:
-      "Focused on Full Stack Development, DAA, DSA, Database Management, and more.",
+      "Focused on Artificial Intelligence, Machine Learning, Full Stack Development, Data Structures, Algorithms, and Database Management.",
     icon: "fa-solid fa-laptop-code",
     mark: "CU",
   },
@@ -45,7 +45,7 @@ const Education = () => {
 
   return (
     <section id="education" className="section-padding" ref={ref} style={{ zIndex: 1, position: "relative" }}>
-      <div className="container mx-auto">
+      <div className="container mx-auto max-w-6xl">
         <SectionHeading
           eyebrow="Academics"
           title={
@@ -53,7 +53,7 @@ const Education = () => {
               My <span className="gradient-text">Education</span>
             </>
           }
-          subtitle="Academic background and qualifications"
+          subtitle="Academic background and engineering qualifications"
         />
 
         <div className="max-w-5xl mx-auto relative">
@@ -95,21 +95,15 @@ const Education = () => {
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, x: isLeft ? -40 : 40, filter: "blur(6px)" }}
+                initial={{ opacity: 0, x: isLeft ? -30 : 30, filter: "blur(6px)" }}
                 animate={inView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
                 transition={{ duration: 0.6, delay: 0.15 + i * 0.2, ease: [0.22, 1, 0.36, 1] }}
                 className="relative mb-12 last:mb-0 flex items-start"
                 style={{ justifyContent: isLeft ? "flex-start" : "flex-end" }}
               >
                 {/* Card */}
-                <div className="w-full md:w-[45%] pl-10 md:pl-0">
-                  <SpotlightCard
-                    className="bento-card p-6 h-full"
-                    style={{
-                      marginRight: isLeft ? "calc(10% + 20px)" : undefined,
-                      marginLeft: isLeft ? undefined : "calc(10% + 20px)",
-                    }}
-                  >
+                <div className="w-full md:w-[46%] pl-10 md:pl-0">
+                  <SpotlightCard className="bento-card p-6 md:p-7 h-full">
                     {/* Subtle academic grid pattern */}
                     <div
                       className="absolute inset-0 pointer-events-none opacity-[0.5]"
@@ -153,92 +147,32 @@ const Education = () => {
                             {edu.year}
                           </span>
                           {edu.pursuing && (
-                            <span
-                              className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"
-                              style={{
-                                color: "hsl(271 90% 78%)",
-                                background: "hsl(271 81% 56% / 0.15)",
-                                border: "1px solid hsl(271 81% 56% / 0.3)",
-                              }}
-                            >
-                              <span
-                                className="w-1.5 h-1.5 rounded-full"
-                                style={{
-                                  background: "hsl(271 90% 78%)",
-                                  animation: "pulse-dot 2s ease-in-out infinite",
-                                }}
-                                aria-hidden="true"
-                              />
-                              Currently Pursuing
+                            <span className="inline-block text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+                              Pursuing
                             </span>
                           )}
                         </div>
-                        <h3 className="text-base font-bold">{edu.degree}</h3>
-                        <p
-                          className="text-sm font-medium mt-0.5"
-                          style={{ color: "hsl(199 89% 60%)" }}
-                        >
-                          {edu.institute}
-                        </p>
+                        <h3 className="text-base md:text-lg font-bold leading-snug text-foreground">
+                          {edu.degree}
+                        </h3>
                       </div>
                     </div>
 
-                    {/* Degree grade + icon */}
-                    <div className="relative flex items-center gap-3 mb-2">
-                      <span
-                        className="text-xs font-semibold inline-block px-2 py-0.5 rounded"
-                        style={{
-                          background: "hsl(142 71% 45% / 0.1)",
-                          color: "hsl(142 71% 45%)",
-                        }}
-                      >
+                    <p className="text-xs font-medium text-muted-foreground/80 mb-3 leading-normal">
+                      {edu.institute}
+                    </p>
+
+                    <div className="mb-3">
+                      <span className="inline-block text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-800/80 text-sky-300 border border-slate-700/60">
                         {edu.grade}
                       </span>
-                      <i
-                        className={`${edu.icon} text-xs`}
-                        style={{ color: "hsl(215 20% 50%)" }}
-                        aria-hidden="true"
-                      />
                     </div>
-                    <p className="relative text-sm text-muted-foreground leading-relaxed">
+
+                    <p className="text-muted-foreground text-xs md:text-sm leading-relaxed">
                       {edu.description}
                     </p>
                   </SpotlightCard>
                 </div>
-
-                {/* Timeline markers */}
-                <span
-                  className="absolute hidden md:block"
-                  style={{
-                    left: "50%",
-                    top: "32px",
-                    transform: "translate(-50%, -50%)",
-                    zIndex: 10,
-                    width: "16px",
-                    height: "16px",
-                    borderRadius: "50%",
-                    background: "hsl(271 81% 56%)",
-                    boxShadow:
-                      "0 0 0 4px hsl(271 81% 56% / 0.2), 0 0 12px hsl(271 81% 56% / 0.4)",
-                  }}
-                  aria-hidden="true"
-                />
-                <span
-                  className="absolute md:hidden"
-                  style={{
-                    left: "8px",
-                    top: "32px",
-                    transform: "translateY(-50%)",
-                    zIndex: 10,
-                    width: "16px",
-                    height: "16px",
-                    borderRadius: "50%",
-                    background: "hsl(271 81% 56%)",
-                    boxShadow:
-                      "0 0 0 4px hsl(271 81% 56% / 0.2), 0 0 12px hsl(271 81% 56% / 0.4)",
-                  }}
-                  aria-hidden="true"
-                />
               </motion.div>
             );
           })}

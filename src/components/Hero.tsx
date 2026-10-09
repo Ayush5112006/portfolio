@@ -1,4 +1,6 @@
 import { motion, AnimatePresence, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
+import { useEffect, useState, type CSSProperties } from "react";
+import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
   BarChart3,
@@ -12,8 +14,6 @@ import {
   Mail,
   X,
 } from "lucide-react";
-import { useEffect, useState, type CSSProperties } from "react";
-import type { LucideIcon } from "lucide-react";
 import Magnetic from "./Magnetic";
 import SpotlightCard from "./SpotlightCard";
 
@@ -80,10 +80,10 @@ const heroCards: HeroCard[] = [
 ];
 
 const desktopPosition: Record<CardSide, CSSProperties> = {
-  "right-top": { top: "-30px", right: "-170px" },
-  "right-bottom": { bottom: "10px", right: "-175px" },
-  "left-top": { top: "-30px", left: "-155px" },
-  "left-bottom": { bottom: "-50px", left: "-155px" },
+  "right-top": { top: "-15px", right: "-120px" },
+  "right-bottom": { bottom: "15px", right: "-125px" },
+  "left-top": { top: "-15px", left: "-130px" },
+  "left-bottom": { bottom: "-30px", left: "-130px" },
 };
 
 const HighlightCard = ({
@@ -101,13 +101,13 @@ const HighlightCard = ({
     animate={{ y: card.float }}
     transition={{ duration: card.duration, repeat: Infinity, ease: "easeInOut", delay: card.delay }}
   >
-    <SpotlightCard className="stat-card w-full">
-      <div className="stat-icon">
+    <SpotlightCard className="stat-card w-full shadow-lg border border-sky-500/20 bg-slate-900/80 backdrop-blur-md">
+      <div className="stat-icon text-sky-400 bg-sky-500/10 border border-sky-500/20">
         <card.icon className="h-4 w-4" aria-hidden="true" />
       </div>
       <div className="min-w-0">
-        <span className="stat-val">{card.title}</span>
-        <span className="stat-label block">{card.subtitle}</span>
+        <span className="stat-val text-foreground font-semibold">{card.title}</span>
+        <span className="stat-label block text-xs text-muted-foreground">{card.subtitle}</span>
       </div>
     </SpotlightCard>
   </motion.div>
@@ -161,7 +161,7 @@ const Hero = () => {
     <>
       <section
         id="home"
-        className="relative min-h-screen flex items-center section-padding pt-28 overflow-hidden"
+        className="relative min-h-screen flex items-center section-padding pt-28 pb-16 overflow-hidden"
         style={{ zIndex: 1 }}
         onMouseMove={onPointerMove}
       >
@@ -198,8 +198,8 @@ const Hero = () => {
           }}
         />
 
-        <div className="container mx-auto relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="container mx-auto relative z-10 max-w-7xl">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             {/* Text Content */}
             <div className="min-w-0">
               {/* Status + Student Badge */}
@@ -209,14 +209,14 @@ const Hero = () => {
                   Open to AI/ML &amp; Software Development Opportunities
                 </div>
                 <span className="hero-label">
-                  <GraduationCap className="h-3.5 w-3.5" aria-hidden="true" />
+                  <GraduationCap className="h-3.5 w-3.5 text-sky-400" aria-hidden="true" />
                   B.Tech CSE @ CHARUSAT
                 </span>
               </motion.div>
 
               {/* Main Heading — staggered line reveal */}
               <h1
-                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.12] mb-6"
+                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.12] mb-6 tracking-tight"
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
                 <span className="block overflow-hidden pb-1">
@@ -235,22 +235,22 @@ const Hero = () => {
               {/* Bio */}
               <motion.p
                 {...fadeUp(0.45)}
-                className="text-base md:text-lg text-muted-foreground mb-4 max-w-xl leading-relaxed"
+                className="text-base md:text-lg text-muted-foreground mb-5 max-w-xl leading-relaxed"
               >
-                Hi, I'm <strong className="text-foreground">Ayush Thummar</strong>. I'm a{" "}
-                <strong className="text-foreground">B.Tech Computer Science Engineering</strong> student at{" "}
-                <strong className="text-foreground">CHARUSAT</strong>, passionate about{" "}
-                <strong className="text-foreground">Artificial Intelligence, Machine Learning, Data Science</strong>,
+                Hi, I'm <strong className="text-foreground font-semibold">Ayush Thummar</strong>. I'm a{" "}
+                <strong className="text-foreground font-semibold">B.Tech Computer Science Engineering</strong> student at{" "}
+                <strong className="text-foreground font-semibold">CHARUSAT</strong>, passionate about{" "}
+                <strong className="text-foreground font-semibold">Artificial Intelligence, Machine Learning, Data Science</strong>,
                 and modern software development. I build practical applications that combine AI, software
                 engineering, and real-world problem solving.
               </motion.p>
 
               {/* Quote */}
-              <motion.div {...fadeUp(0.55)} className="hero-quote">
-                <i className="fa-solid fa-quote-left mr-2 opacity-40" aria-hidden="true" />
+              <motion.div {...fadeUp(0.55)} className="hero-quote mb-6">
+                <i className="fa-solid fa-quote-left mr-2 opacity-40 text-sky-400" aria-hidden="true" />
                 I enjoy turning ideas into practical applications — clean code, intelligent features, and
                 real-world problem solving are my passions.
-                <i className="fa-solid fa-quote-right ml-2 opacity-40" aria-hidden="true" />
+                <i className="fa-solid fa-quote-right ml-2 opacity-40 text-sky-400" aria-hidden="true" />
               </motion.div>
 
               {/* Tech Tags */}
@@ -331,7 +331,7 @@ const Hero = () => {
               className="flex flex-col items-center lg:items-end overflow-visible hero-visual"
             >
               <div
-                className="relative"
+                className="relative my-4 lg:my-0"
                 style={{ width: "260px", height: "260px", perspective: "1000px" }}
               >
                 {/* Orbiting ring */}
@@ -377,7 +377,7 @@ const Hero = () => {
                     left: "50%",
                     transform: "translate(-50%, -50%)",
                     background:
-                      "radial-gradient(circle, hsl(199 89% 60% / 0.18) 0%, transparent 62%)",
+                      "radial-gradient(circle, hsl(199 89% 60% / 0.22) 0%, transparent 62%)",
                     filter: "blur(6px)",
                   }}
                   aria-hidden="true"
@@ -397,9 +397,9 @@ const Hero = () => {
                   <div
                     className="w-full h-full rounded-full overflow-hidden"
                     style={{
-                      border: "3px solid hsl(199 89% 60% / 0.3)",
+                      border: "3px solid hsl(199 89% 60% / 0.35)",
                       boxShadow:
-                        "0 0 40px hsl(199 89% 60% / 0.15), 0 0 80px hsl(271 81% 56% / 0.08)",
+                        "0 0 45px hsl(199 89% 60% / 0.2), 0 0 90px hsl(271 81% 56% / 0.12)",
                     }}
                   >
                     <img
@@ -435,7 +435,7 @@ const Hero = () => {
               </div>
 
               {/* Floating highlight cards — stacked below the photo on smaller screens */}
-              <div className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-3 w-full mt-8 lg:hidden">
+              <div className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-3 w-full mt-10 lg:hidden">
                 {heroCards.map((card) => (
                   <HighlightCard key={`mobile-${card.title}`} card={card} className="min-w-0" />
                 ))}
@@ -452,19 +452,19 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-            style={{ background: "hsl(228 60% 4% / 0.85)", backdropFilter: "blur(8px)" }}
+            className="fixed inset-0 z-[150] flex items-center justify-center p-4 md:p-6"
+            style={{ background: "hsl(228 60% 2% / 0.85)", backdropFilter: "blur(12px)" }}
             onClick={() => setShowResume(false)}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Resume Preview"
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20, filter: "blur(6px)" }}
-              animate={{ scale: 1, opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ scale: 0.94, opacity: 0, y: 10, filter: "blur(4px)" }}
+              initial={{ scale: 0.92, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.92, opacity: 0, y: 20 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              role="dialog"
-              aria-modal="true"
-              aria-label="Resume preview"
-              className="relative rounded-2xl shadow-2xl w-full max-w-3xl h-[85vh] flex flex-col overflow-hidden"
+              className="relative w-full max-w-4xl h-[85vh] rounded-2xl flex flex-col overflow-hidden"
               style={{
                 background: "hsl(225 45% 8%)",
                 border: "1px solid hsl(199 89% 60% / 0.22)",
@@ -477,7 +477,7 @@ const Hero = () => {
                 className="flex items-center justify-between px-5 py-4"
                 style={{ borderBottom: "1px solid hsl(225 30% 16% / 0.4)" }}
               >
-                <span className="font-semibold text-foreground">Resume Preview</span>
+                <span className="font-semibold text-foreground">Resume Preview — Ayush Thummar</span>
                 <div className="flex items-center gap-3">
                   <a
                     href="/ayush_Resume.pdf"
@@ -488,7 +488,7 @@ const Hero = () => {
                   </a>
                   <button
                     onClick={() => setShowResume(false)}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                     aria-label="Close resume preview"
                     autoFocus
                   >

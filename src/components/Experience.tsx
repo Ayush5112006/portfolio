@@ -12,17 +12,17 @@ const timeline = [
   },
   {
     year: "2025",
-    title: "Building Projects",
+    title: "Building Full-Stack Projects",
     description:
-      "Dove into React and Node.js. Started building full-stack projects and contributing to open source with many websites built.",
+      "Dove into React and Node.js. Started building full-stack projects, AI detection applications, and contributing to open source.",
     tags: ["React", "Node.js", "Full Stack", "Open Source"],
   },
   {
     year: "2026",
-    title: "Freelancing & Growth",
+    title: "Freelancing & AI Integration",
     description:
-      "Started freelancing, delivered client projects, and expanded into Next.js, AI tools, n8n automation, and app development.",
-    tags: ["Next.js", "AI Tools", "Freelancing", "App Dev"],
+      "Started freelancing, delivered client applications, and expanded into Next.js, AI model deployment, FastAPI, and app development.",
+    tags: ["Next.js", "FastAPI", "AI / ML", "Freelancing"],
   },
 ];
 
@@ -75,7 +75,7 @@ const Experience = () => {
 
   return (
     <section id="experience" className="section-padding" style={{ zIndex: 1, position: "relative" }}>
-      <div className="container mx-auto">
+      <div className="container mx-auto max-w-6xl">
         <SectionHeading
           eyebrow="Journey"
           title={
@@ -131,33 +131,27 @@ const Experience = () => {
             return (
               <motion.div
                 key={item.year}
-                initial={{ opacity: 0, x: isLeft ? -40 : 40, filter: "blur(6px)" }}
+                initial={{ opacity: 0, x: isLeft ? -30 : 30, filter: "blur(6px)" }}
                 animate={inView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
                 transition={{ duration: 0.6, delay: i * 0.18, ease: [0.22, 1, 0.36, 1] }}
-                className="relative mb-16 last:mb-0 flex items-start"
+                className="relative mb-12 last:mb-0 flex items-start"
                 style={{ justifyContent: isLeft ? "flex-start" : "flex-end" }}
               >
                 {/* Card */}
-                <div className="w-full md:w-[45%] pl-10 md:pl-0">
-                  <div
-                    className="glass-card p-6"
-                    style={{
-                      marginRight: isLeft ? "calc(10% + 20px)" : undefined,
-                      marginLeft: isLeft ? undefined : "calc(10% + 20px)",
-                    }}
-                  >
+                <div className="w-full md:w-[46%] pl-10 md:pl-0">
+                  <div className="glass-card p-6 md:p-7 hover:border-sky-500/30 transition-all duration-300">
                     {/* Year badge */}
                     <span
-                      className="inline-block text-sm font-bold px-4 py-1 rounded-full mb-3"
+                      className="inline-block text-xs font-bold px-3.5 py-1 rounded-full mb-3 tracking-wider"
                       style={{
                         color: "hsl(199 89% 60%)",
-                        background: "hsl(199 89% 60% / 0.08)",
-                        border: "1px solid hsl(199 89% 60% / 0.2)",
+                        background: "hsl(199 89% 60% / 0.1)",
+                        border: "1px solid hsl(199 89% 60% / 0.25)",
                       }}
                     >
                       {item.year}
                     </span>
-                    <h3 className="text-lg font-bold mb-2">{item.title}</h3>
+                    <h3 className="text-lg font-bold mb-2 text-foreground">{item.title}</h3>
                     <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                       {item.description}
                     </p>
